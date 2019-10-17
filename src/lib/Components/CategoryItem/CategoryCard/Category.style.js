@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     color: '#fff',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   cardGroupItem: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
     width: '100%',
     height: '100%',
     position: 'absolute',

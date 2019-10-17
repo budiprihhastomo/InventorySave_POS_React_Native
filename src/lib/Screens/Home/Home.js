@@ -1,10 +1,17 @@
-import React from 'react';
-import {StatusBar, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {StatusBar, ScrollView, FlatList} from 'react-native';
 
 // Import : Native-Base
 import {Container, Text, Icon, View, Item, Input} from 'native-base';
 // Custom Style
 import {styles} from './Home.style';
+import Rupiah from 'rupiah-format';
+import {BACKEND_API_URL} from 'react-native-dotenv';
+
+// REVIEW
+import {useSelector, useDispatch} from 'react-redux';
+import {getProducts} from '../../../public/redux/actions/Products';
+import {getCategories} from '../../../public/redux/actions/Categories';
 
 // Import : Componenet
 import CategoryCircleItem from '../../Components/CategoryItem/CategoryCircle/Category';
@@ -39,24 +46,6 @@ const categoryData = [
     color: '#575fcf',
   },
 ];
-const categoriesData = [
-  {
-    category: 'Food',
-    image: 'http://www.dapurkobe.co.id/wp-content/uploads/sate-ayam.jpg',
-  },
-  {
-    category: 'Beverage',
-    image: 'http://www.dapurkobe.co.id/wp-content/uploads/sate-ayam.jpg',
-  },
-  {
-    category: 'Fast Food',
-    image: 'http://www.dapurkobe.co.id/wp-content/uploads/sate-ayam.jpg',
-  },
-  {
-    category: 'Appetizers',
-    image: 'http://www.dapurkobe.co.id/wp-content/uploads/sate-ayam.jpg',
-  },
-];
 const recommendedData = [
   {
     title: 'Sate Ayam',
@@ -73,7 +62,33 @@ const recommendedData = [
   },
 ];
 
+const colorCard = [
+  '#27ae60',
+  '#2980b9',
+  '#e74c3c',
+  '#d35400',
+  '#2c3e50',
+  '#16a085',
+  '#95a5a6',
+  '#34495e',
+  '#e67e22e67e22',
+];
+
 const Home = props => {
+  const resProducts = useSelector(state => state.Products.productLists);
+  const resCategories = useSelector(state => state.Categories.categoryLists);
+  const dispatch = useDispatch();
+
+  const fetchData = async () => {
+    const fetchProducts = await getProducts();
+    dispatch(fetchProducts);
+    const fetchCategories = await getCategories();
+    dispatch(fetchCategories);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -128,24 +143,23 @@ const Home = props => {
             <Text style={[styles.titleSection, {marginLeft: 25}]}>
               Recommended
             </Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <View style={styles.sectionItemHorizontal}>
-                {recommendedData.map(item => {
-                  return (
-                    <RecommendedCardItem
-                      key={item.title}
-                      style={styles.recommendedItem}
-                      title={item.title}
-                      category={item.category}
-                      price={item.price}
-                      image={item.image}
-                    />
-                  );
-                })}
-              </View>
-            </ScrollView>
+            <View style={styles.sectionItemHorizontal}>
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                data={resProducts}
+                renderItem={({item}) => (
+                  <RecommendedCardItem
+                    style={styles.recommendedItem}
+                    title={item.product_name}
+                    category={item.category_name}
+                    price={Rupiah.convert(item.product_price)}
+                    image={`${BACKEND_API_URL}${item.product_image}`}
+                  />
+                )}
+                keyExtractor={item => item.product_id}
+              />
+            </View>
           </View>
           {/* Recommended End */}
 
@@ -177,18 +191,21 @@ const Home = props => {
               Food Categories
             </Text>
             <View style={styles.sectionItemVertical}>
-              <View style={styles.wrapLayout}>
-                {categoriesData.map(item => {
-                  return (
-                    <CategoryCardItem
-                      key={item.title}
-                      style={styles.recommendedItem}
-                      title={item.category}
-                      image={item.image}
-                    />
-                  );
-                })}
-              </View>
+              <FlatList
+                numColumns={2}
+                data={resCategories}
+                renderItem={({item}) => (
+                  <CategoryCardItem
+                    style={{
+                      backgroundColor:
+                        colorCard[Math.floor(Math.random() * colorCard.length)],
+                    }}
+                    title={item.category_name}
+                    image={item.image}
+                  />
+                )}
+                keyExtractor={item => item.category_id}
+              />
             </View>
           </View>
           {/* Categories Card End*/}

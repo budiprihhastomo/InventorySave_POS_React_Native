@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   section_full: {
-    marginTop: 30,
+    marginTop: 20,
   },
   titleSection: {
     fontSize: 26,
@@ -56,8 +56,6 @@ export const styles = StyleSheet.create({
   },
   wrapLayout: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: 'column',
   },
 });

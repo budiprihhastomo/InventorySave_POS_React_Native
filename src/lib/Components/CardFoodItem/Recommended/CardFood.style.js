@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     marginHorizontal: 15,
+    marginBottom: 20,
   },
   cardHeader: {
     borderRadius: 20,

@@ -1,2 +1,3 @@
 import React from 'react';
-import {Drawer} from 'native-base';
+import {} from 'react-navigation'
+

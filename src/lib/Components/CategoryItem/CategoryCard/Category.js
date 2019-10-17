@@ -5,7 +5,7 @@ import {styles} from './Category.style';
 
 const CategoryCard = props => {
   return (
-    <View style={styles.cardItem}>
+    <View style={styles.cardItem} {...props.style}>
       <ImageBackground
         source={{
           uri: props.image,
