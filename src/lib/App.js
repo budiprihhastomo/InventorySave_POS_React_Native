@@ -11,12 +11,13 @@ import {store, persistor} from '../public/redux/store';
 
 // Import : Screen
 import Home from './Screens/Home/Home';
+import Login from './Screens/Login/Login';
 
 const HomeScreen = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Home />
+        <Login />
       </PersistGate>
     </Provider>
   );
