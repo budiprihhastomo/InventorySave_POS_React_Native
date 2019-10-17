@@ -1,3 +1,5 @@
 import React from 'react';
-import {} from 'react-navigation'
+import {createDrawerNavigator} from 'react-navigation-drawer'
+
+const Drawer = createDrawerNavigator()
 

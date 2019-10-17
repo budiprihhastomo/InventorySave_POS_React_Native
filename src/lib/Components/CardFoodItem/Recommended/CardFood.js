@@ -11,7 +11,7 @@ const CardFood = props => {
           source={{
             uri: props.image,
           }}
-          style={{width: 300, height: 135}}
+          style={{width: 250, height: 135}}
         />
       </View>
       <View style={styles.cardGroup}>

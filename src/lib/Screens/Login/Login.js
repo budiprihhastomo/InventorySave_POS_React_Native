@@ -36,7 +36,9 @@ const Login = props => {
           </Item>
         </View>
         <View style={[styles.inputGroup, {marginTop: 30}]}>
-          <Button style={[styles.buttonLogin, styles.buttonAction]}>
+          <Button
+            style={[styles.buttonLogin, styles.buttonAction]}
+            onPress={() => props.navigation.navigate('HomeScreen')}>
             <Text style={styles.buttonText}>Sign in</Text>
           </Button>
           <Button style={[styles.buttonRegister, styles.buttonAction]}>
