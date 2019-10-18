@@ -77,6 +77,7 @@ const colorCard = [
 const Home = props => {
   const resProducts = useSelector(state => state.Products.productLists);
   const resCategories = useSelector(state => state.Categories.categoryLists);
+  const resUserProfile = useSelector(state => state.Authentication.userProfile);
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -105,7 +106,9 @@ const Home = props => {
                   color: '#fff',
                 }}
               />
-              <Text style={styles.textWelcome}>Welcome Back!</Text>
+              <Text style={styles.textWelcome}>
+                Welcome, {resUserProfile.user_nick}!
+              </Text>
               <Text style={styles.textIntro}>What you like?</Text>
               <Item regular style={styles.searchBarItem}>
                 <Input

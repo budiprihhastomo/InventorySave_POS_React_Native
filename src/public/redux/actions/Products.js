@@ -1,8 +1,9 @@
 import Axios from 'axios';
+import {BACKEND_API_URL} from 'react-native-dotenv';
 
 export const getProducts = async () => {
   try {
-    const result = await Axios.get('http://192.168.1.21:5000/api/v1/products');
+    const result = await Axios.get(`${BACKEND_API_URL}api/v1/products`);
     return {
       type: 'GET_PRODUCTS',
       payload: result.data.data.content,

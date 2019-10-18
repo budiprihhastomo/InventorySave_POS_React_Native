@@ -20,10 +20,7 @@ const logger = createLogger();
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 // Redux : Store
-const store = createStore(
-  persistedReducer,
-  applyMiddleware(logger, promiseMiddleware),
-);
+const store = createStore(persistedReducer, applyMiddleware(promiseMiddleware));
 
 // Middleware : Redux-Persist Persister
 let persistor = persistStore(store);

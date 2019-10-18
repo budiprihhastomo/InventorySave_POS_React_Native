@@ -45,7 +45,7 @@ const Search = props => {
         </View>
       </View>
       <ScrollView>
-        <View>
+        <View style={{marginTop: 20}}>
           <CardItem
             title="Nasi Goreng"
             category="Food"
