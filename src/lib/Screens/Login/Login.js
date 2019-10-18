@@ -29,7 +29,7 @@ const Login = props => {
     if (result !== undefined) {
       dispatch(result);
       AsyncStorage.setItem('auth-token', result.payload.access_token);
-      props.navigation.navigate('Home');
+      props.navigation.replace('Home');
     } else return alert('Invalid Credentials');
   };
 

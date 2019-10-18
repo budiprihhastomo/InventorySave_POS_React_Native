@@ -10,6 +10,6 @@ export const isLoggedIn = async props => {
     },
     type: 'GET_AUTHENTICATION',
   };
-  if (authToken) props.navigation.navigate('Home');
+  if (authToken) props.navigation.replace('Home');
   return data;
 };

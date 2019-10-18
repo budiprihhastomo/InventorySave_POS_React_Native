@@ -115,7 +115,7 @@ const Home = props => {
                   placeholder="Find your favorite food..."
                   placeholderTextColor="#95a5a6"
                   style={styles.searchBar}
-                  onFocus={() => props.navigation.navigate('SearchScreen')}
+                  onFocus={() => props.navigation.navigate('Search')}
                 />
                 <Icon name="ios-search" />
               </Item>
