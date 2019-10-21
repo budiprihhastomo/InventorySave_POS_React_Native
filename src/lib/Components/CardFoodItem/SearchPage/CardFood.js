@@ -21,6 +21,7 @@ const CardFood = props => {
           }}
           style={styles.imageHeader}
         />
+        <AddCart />
         <View style={styles.cardGroupItem}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.cardCategory}>{props.category}</Text>
@@ -28,7 +29,6 @@ const CardFood = props => {
           </View>
           <Text style={styles.cardTitle}>{props.title}</Text>
           <Text style={styles.cardDesc}>{props.desc}</Text>
-          <AddCart />
         </View>
       </View>
     </View>

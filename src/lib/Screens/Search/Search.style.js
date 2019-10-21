@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     paddingTop: 5,
     borderBottomStartRadius: 40,
     borderBottomEndRadius: 40,
+    marginBottom: 20,
   },
   body: {
     alignItems: 'center',
@@ -35,5 +36,21 @@ export const styles = StyleSheet.create({
     height: 95,
     borderBottomStartRadius: 30,
     borderBottomEndRadius: 30,
+  },
+  emptyFilter: {
+    flex: 1,
+    marginTop: '30%',
+  },
+  textGroup: {
+    alignItems: 'center',
+  },
+  textNotFound: {
+    color: '#000',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  textSub: {
+    color: '#000',
+    fontSize: 12,
   },
 });

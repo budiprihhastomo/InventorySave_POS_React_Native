@@ -1,12 +1,13 @@
 // Import : React-Navigation
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {fromLeft, zoomIn, fadeOut} from 'react-navigation-transitions';
+import {fromLeft, zoomIn, fromRight} from 'react-navigation-transitions';
 
 // Import : Screen
 import Home from '../lib/Screens/Home/Home';
 import Login from '../lib/Screens/Login/Login';
 import Search from '../lib/Screens/Search/Search';
+import DetailOrder from '../lib/Screens/DetailOrder/DetailOrder';
 
 const handleCustomTransition = ({scenes}) => {
   const prevScene = scenes[scenes.length - 2];
@@ -25,7 +26,7 @@ const handleCustomTransition = ({scenes}) => {
   ) {
     return fromLeft();
   }
-  return fadeOut();
+  return fromRight();
 };
 
 const MainNavigation = createStackNavigator(
@@ -33,6 +34,7 @@ const MainNavigation = createStackNavigator(
     Home,
     Login,
     Search,
+    DetailOrder,
   },
   {
     initialRouteName: 'Login',

@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {StatusBar, ScrollView, FlatList} from 'react-native';
+import {StatusBar, ScrollView, FlatList, AsyncStorage} from 'react-native';
 
 // Import : Native-Base
-import {Container, Text, Icon, View, Item, Input} from 'native-base';
+import {Container, Text, Icon, View, Item, Input, Button} from 'native-base';
 // Custom Style
 import {styles} from './Home.style';
 import Rupiah from 'rupiah-format';
@@ -74,10 +74,13 @@ const colorCard = [
   '#e67e22e67e22',
 ];
 
+const deleteSessionLogin = async () => {
+  return await AsyncStorage.removeItem('auth-token');
+};
 const Home = props => {
-  const resProducts = useSelector(state => state.Products.productLists);
+  const resProducts = useSelector(state => state.getProducts.productLists);
   const resCategories = useSelector(state => state.Categories.categoryLists);
-  const resUserProfile = useSelector(state => state.Authentication.userProfile);
+  // const resUserProfile = useSelector(state => state.Authentication.userProfile);
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -97,17 +100,20 @@ const Home = props => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <View style={styles.section_half}>
-              <Icon
-                name="menu"
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 25,
-                  color: '#fff',
-                }}
-              />
-              <Text style={styles.textWelcome}>
-                Welcome, {resUserProfile.user_nick}!
+              <Button
+                transparent
+                style={{position: 'absolute', top: 0, right: 25}}>
+                <Icon
+                  name="menu"
+                  style={{
+                    color: '#fff',
+                  }}
+                />
+              </Button>
+              <Text
+                style={styles.textWelcome}
+                onPress={() => deleteSessionLogin()}>
+                Welcome, Budi Prih Hastomo!
               </Text>
               <Text style={styles.textIntro}>What you like?</Text>
               <Item regular style={styles.searchBarItem}>
@@ -115,7 +121,10 @@ const Home = props => {
                   placeholder="Find your favorite food..."
                   placeholderTextColor="#95a5a6"
                   style={styles.searchBar}
-                  onFocus={() => props.navigation.navigate('Search')}
+                  onFocus={() => {
+                    props.navigation.navigate('Search');
+                    dispatch({type: 'DELETE_PRODUCTS_FILTER'});
+                  }}
                 />
                 <Icon name="ios-search" />
               </Item>
@@ -154,7 +163,9 @@ const Home = props => {
                 data={resProducts}
                 renderItem={({item}) => (
                   <RecommendedCardItem
+                    {...props}
                     style={styles.recommendedItem}
+                    id={item.product_id}
                     title={item.product_name}
                     category={item.category_name}
                     price={Rupiah.convert(item.product_price)}

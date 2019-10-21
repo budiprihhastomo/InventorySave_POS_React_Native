@@ -50,9 +50,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#0fbcf9',
-    marginTop: 5,
-    right: 110,
     position: 'absolute',
+    left: -30,
+    bottom: 0,
   },
   cardPrice: {
     fontSize: 10,

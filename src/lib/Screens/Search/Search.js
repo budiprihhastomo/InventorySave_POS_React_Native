@@ -1,31 +1,85 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Icon,
   Button,
   Title,
   Container,
-  Left,
-  Right,
   Item,
   Input,
-  Header,
-  Body,
+  Text,
 } from 'native-base';
-import {ScrollView} from 'react-native';
+import {FlatList, ImageBackground} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './Search.style';
+import {getProductsByName} from '../../../public/redux/actions/Products';
+import Rupiah from 'rupiah-format';
+import {BACKEND_API_URL} from 'react-native-dotenv';
 
 // Import : Card
 import CardItem from '../../Components/CardFoodItem/SearchPage/CardFood';
 
 const Search = props => {
+  const dispatch = useDispatch();
+  const [search, setSearch] = useState('');
+  const resProducts = useSelector(
+    state => state.getProducts.productFilterLists,
+  );
+
+  const getFilterData = async () => {
+    const fetchProducts = await getProductsByName(search);
+    dispatch(fetchProducts);
+  };
+
+  const backHome = () => {
+    if (resProducts.length > 0) {
+      setSearch('');
+      return dispatch({type: 'DELETE_PRODUCTS_FILTER'});
+    } else {
+      props.navigation.navigate('Home');
+    }
+  };
+
+  const contentFilter = () => {
+    if (resProducts.length > 0) {
+      return (
+        <FlatList
+          data={resProducts}
+          renderItem={({item}) => (
+            <CardItem
+              title={item.product_name}
+              category={item.category_name}
+              price={Rupiah.convert(item.product_price)}
+              desc={item.product_description}
+              image={`${BACKEND_API_URL}${item.product_image}`}
+            />
+          )}
+          keyExtractor={item => item.product_id}
+        />
+      );
+    } else {
+      return (
+        <View style={styles.emptyFilter}>
+          <ImageBackground
+            source={require('../../../public/assets/login_screen.png')}
+            style={{width: '100%', height: 200}}
+          />
+          <View style={styles.textGroup}>
+            <Text style={styles.textNotFound}>Find your favorite food!</Text>
+            <Text style={styles.textSub}>
+              You can find any food in here, Let's Go Find!
+            </Text>
+          </View>
+        </View>
+      );
+    }
+  };
+
   return (
     <Container>
       <View style={styles.header}>
         <View style={{flexDirection: 'row'}}>
-          <Button
-            transparent
-            onPress={() => props.navigation.navigate('HomeScreen')}>
+          <Button transparent onPress={() => backHome()}>
             <Icon name="arrow-back" style={{color: '#000'}} />
           </Button>
           <View style={{flex: 1, alignSelf: 'center', right: 15}}>
@@ -39,50 +93,15 @@ const Search = props => {
               placeholderTextColor="#95a5a6"
               style={styles.searchBar}
               autoFocus={true}
+              onChangeText={val => setSearch(val)}
+              onSubmitEditing={() => getFilterData()}
+              value={search}
             />
             <Icon name="ios-search" />
           </Item>
         </View>
       </View>
-      <ScrollView>
-        <View style={{marginTop: 20}}>
-          <CardItem
-            title="Nasi Goreng"
-            category="Food"
-            price="Rp. 12.000.00"
-            desc="Lorem ipsum is text beta tester to try content management when build a component."
-            image="https://www.masakapahariini.com/wp-content/uploads/2018/04/cara-membuat-nasi-goreng-seafood-620x440.jpg"
-          />
-          <CardItem
-            title="Nasi Goreng"
-            category="Food"
-            price="Rp. 12.000.00"
-            desc="Lorem ipsum is text beta tester to try content management when build a component."
-            image="https://www.masakapahariini.com/wp-content/uploads/2018/04/cara-membuat-nasi-goreng-seafood-620x440.jpg"
-          />
-          <CardItem
-            title="Nasi Goreng"
-            category="Food"
-            price="Rp. 12.000.00"
-            desc="Lorem ipsum is text beta tester to try content management when build a component."
-            image="https://www.masakapahariini.com/wp-content/uploads/2018/04/cara-membuat-nasi-goreng-seafood-620x440.jpg"
-          />
-          <CardItem
-            title="Nasi Goreng"
-            category="Food"
-            price="Rp. 12.000.00"
-            desc="Lorem ipsum is text beta tester to try content management when build a component."
-            image="https://www.masakapahariini.com/wp-content/uploads/2018/04/cara-membuat-nasi-goreng-seafood-620x440.jpg"
-          />
-          <CardItem
-            title="Nasi Goreng"
-            category="Food"
-            price="Rp. 12.000.00"
-            desc="Lorem ipsum is text beta tester to try content management when build a component."
-            image="https://www.masakapahariini.com/wp-content/uploads/2018/04/cara-membuat-nasi-goreng-seafood-620x440.jpg"
-          />
-        </View>
-      </ScrollView>
+      {contentFilter()}
     </Container>
   );
 };
